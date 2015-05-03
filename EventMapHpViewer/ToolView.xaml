@@ -38,7 +38,7 @@
         <Border Grid.Row="0"
                 BorderThickness="0,0,0,1"
                 BorderBrush="{DynamicResource ActiveBorderBrushKey}">
-            <TextBlock Text="攻略中マップ"
+            <TextBlock Text="공략중인 맵"
                        Style="{DynamicResource HeaderTextStyleKey}"
                        Margin="10,0,10,10"/>
         </Border>
@@ -143,10 +143,9 @@
                                            HorizontalAlignment="Right"
                                            VerticalAlignment="Center"
                                            Margin="3,0,7,0">
-                                    <Run Text="後"/>
                                     <Run Text="{Binding RemainingCount}"
                                          Style="{DynamicResource EmphaticTextElementStyleKey}"/>
-                                    <Run Text="回"/>
+                                    <Run Text="회 격파 필요"/>
                                 </TextBlock>
                             </Grid>
                         </Border>
@@ -158,12 +157,12 @@
                    Style="{DynamicResource DefaultTextStyleKey}"
                    TextWrapping="WrapWithOverflow"
                    Margin="5,15">
-            ※出撃(海域選択)画面を開いた際に更新されます。<LineBreak/>
-            ※イベントマップのHPは、ボス旗艦のHPを削ると連動して減少します。<LineBreak/>
-            ※難易度未選択時のHPは9999固定です。<LineBreak/>
+            ※출격(해역선택)화면을 열었을때 갱신됩니다.<LineBreak/>
+            ※이벤트Map의 HP는 보스 기함의 HP를 감소시키면 감소합니다.<LineBreak/>
+            ※난이도 미선택시의 HP는 9999 고정입니다.<LineBreak/>
             <LineBreak/>
-            ■対応イベント: 2014夏～2015春<LineBreak/>
-            ※2015春は甲のみ
+            ■대응이벤트: 2014여름～2015봄<LineBreak/>
+            ※2015봄은 현재 정보가 없어 갑만 지원
         </TextBlock>
     </Grid>
 </UserControl>
