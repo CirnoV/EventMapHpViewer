@@ -1,9 +1,10 @@
 ﻿using System.Windows.Media;
+using EventMapHpViewer.Models;
 using Livet;
 
-namespace EventMapHpViewer
+namespace EventMapHpViewer.ViewModels
 {
-    public class MapInfoViewModel : ViewModel
+    public class MapViewModel : ViewModel
     {
 
         #region MapNumber変更通知プロパティ
@@ -150,20 +151,60 @@ namespace EventMapHpViewer
         #endregion
 
 
-        public MapInfoViewModel(MapInfo.Api_Data info)
+        #region IsRankSelected変更通知プロパティ
+        private bool _IsRankSelected;
+
+        public bool IsRankSelected
+        {
+            get
+            { return this._IsRankSelected; }
+            set
+            { 
+                if (this._IsRankSelected == value)
+                    return;
+                this._IsRankSelected = value;
+                this.RaisePropertyChanged();
+            }
+        }
+        #endregion
+
+
+        #region IsSupported変更通知プロパティ
+        private bool _IsSupported;
+
+        public bool IsSupported
+        {
+            get
+            { return this._IsSupported; }
+            set
+            { 
+                if (this._IsSupported == value)
+                    return;
+                this._IsSupported = value;
+                this.RaisePropertyChanged();
+            }
+        }
+        #endregion
+
+
+        public MapViewModel(MapData info)
         {
             this.MapNumber = info.MapNumber;
             this.Name = info.Name;
             this.AreaName = info.AreaName;
             this.Current = info.Current;
             this.Max = info.Max;
-            this.RemainingCount = 0 < info.RemainingCount ? info.RemainingCount.ToString() : "?";
-            this.IsCleared = info.api_cleared == 1;
+            this.RemainingCount = info.RemainingCount.ToString();
+            this.IsCleared = info.IsCleared == 1;
             var color = info.RemainingCount < 2
                 ? new SolidColorBrush(Color.FromRgb(255, 32, 32))
                 : new SolidColorBrush(Color.FromRgb(64, 200, 32));
             color.Freeze();
             this.GaugeColor = color;
+            this.IsRankSelected = info.Eventmap == null
+                || info.Eventmap.SelectedRank != 0
+                || info.Eventmap.NowMapHp != 9999;
+            this.IsSupported = 0 < info.RemainingCount;
         }
     }
 }
