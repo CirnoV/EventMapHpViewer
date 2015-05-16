@@ -6,6 +6,7 @@
              xmlns:viewModels="clr-namespace:EventMapHpViewer.ViewModels"
              xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
              mc:Ignorable="d" 
+			 MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType={x:Type ContentControl}}, Mode=OneWay}" 
              d:DesignHeight="300"
              d:DesignWidth="500"
              d:DataContext="{d:DesignData /SampleData/ToolViewModelSampleData.xaml}">
