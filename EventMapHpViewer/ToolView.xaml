@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:EventMapHpViewer.ViewModels"
              xmlns:l="http://schemas.livet-mvvm.net/2011/wpf"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:kanColleWrapper="clr-namespace:Grabacr07.KanColleWrapper;assembly=KanColleWrapper"
              Background="{DynamicResource ThemeBrushKey}"
              Foreground="{DynamicResource ActiveForegroundBrushKey}"
              mc:Ignorable="d" 
-             d:DesignHeight="300"
-             d:DesignWidth="500"
+             d:DesignHeight="500"
+             d:DesignWidth="600"
              d:DataContext="{d:DesignData /SampleData/ToolViewModelSampleData.xaml}">
     
     <UserControl.Resources>
@@ -48,11 +50,19 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <l:LivetCallMethodAction MethodTarget="{Binding}"
+                                     MethodName="Loaded" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled"
                   PanningMode="Both">
         <Grid Margin="8,4">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -173,19 +183,59 @@
                                         </ProgressBar.Template>
                                     </ProgressBar>
 
-                                    <TextBlock Grid.Column="4"
-                                               Grid.Row="0"
-                                               Grid.RowSpan="2"
-                                               HorizontalAlignment="Right"
-                                               VerticalAlignment="Center"
-                                               Margin="3,0,7,0"
-                                               Visibility="{Binding IsSupported, Converter={StaticResource TrueToVisibleConverter}}">
-                                        <Run Text="{Binding RemainingCount}"
-                                             Style="{DynamicResource EmphaticTextElementStyleKey}"/>
-                                        <Run Text="회 격파필요"
-                                             Style="{DynamicResource DefaultTextElementStyleKey}"/>
-                                    </TextBlock>
-                                
+                                    <Control Grid.Column="4"
+                                             Grid.Row="0"
+                                             Grid.RowSpan="2"
+                                             HorizontalAlignment="Right"
+                                             VerticalAlignment="Center"
+                                             Margin="3,0,7,0"
+                                             Visibility="{Binding IsCountVisible, Converter={StaticResource TrueToVisibleConverter}}">
+                                        <Control.Style>
+                                            <Style TargetType="{x:Type Control}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate>
+                                                            <TextBlock>
+                                                                <Run Text="{Binding RemainingCount}"
+                                                                     Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+                                                                <Run Text="회 격파필요"
+                                                                     Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                                                            </TextBlock>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding GaugeType}" Value="Transport">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <StackPanel>
+                                                                        <TextBlock>
+                                                                            <Run Text="A:"
+                                                                                 Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                                                                            <Run Text="{Binding RemainingCount}"
+                                                                                 Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+                                                                            <Run Text="회 격파필요"
+                                                                                 Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                                                                        </TextBlock>
+                                                                        <TextBlock>
+                                                                            <Run Text="S:"
+                                                                                 Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                                                                            <Run Text="{Binding RemainingCountTransportS}"
+                                                                                 Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+                                                                            <Run Text="회 격파필요"
+                                                                                 Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                                                                        </TextBlock>
+                                                                    </StackPanel>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Control.Style>
+                                    </Control>
+
                                     <TextBlock Grid.Column="4"
                                                Grid.Row="0"
                                                Grid.RowSpan="2"
@@ -193,7 +243,18 @@
                                                VerticalAlignment="Center"
                                                Margin="3,0,7,0"
                                                Visibility="{Binding IsSupported, Converter={StaticResource FalseToVisibleConverter}}"
+                                               Style="{DynamicResource DefaultTextStyleKey}"
                                                Text="미대응"/>
+
+                                    <TextBlock Grid.Column="4"
+                                               Grid.Row="0"
+                                               Grid.RowSpan="2"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               Margin="3,0,7,0"
+                                               Visibility="{Binding IsInfinity, Converter={StaticResource TrueToVisibleConverter}}"
+                                               Style="{DynamicResource DefaultTextStyleKey}"
+                                               Text="무한"/>
 
 
                                     <Grid x:Name="UnselectedIndicator"
@@ -214,10 +275,43 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-            <TextBlock Grid.Row="2"
+
+            <Border Grid.Row="2"
+                    BorderThickness="0,0,0,1"
+                    BorderBrush="{DynamicResource ActiveBorderBrushKey}">
+                <StackPanel Orientation="Horizontal"
+                            Margin="5">
+                    <TextBlock Text="제1함대의 수송력"
+                               Style="{DynamicResource EmphaticTextStyleKey}"
+                               FontSize="12"
+                               Visibility="{Binding Source={x:Static kanColleWrapper:KanColleClient.Current}, Path=Homeport.Organization.Combined, Converter={StaticResource FalseToVisibleConverter}}"/>
+                    <TextBlock Text="연합함대의 수송력"
+                               Style="{DynamicResource EmphaticTextStyleKey}"
+                               FontSize="12"
+                               Visibility="{Binding Source={x:Static kanColleWrapper:KanColleClient.Current}, Path=Homeport.Organization.Combined, Converter={StaticResource TrueToVisibleConverter}}"/>
+                    <TextBlock Text=" (잠정)"
+                               Style="{DynamicResource DefaultTextStyleKey}"/>
+                    <StackPanel Margin="8,0">
+                        <TextBlock>
+                            <Run Text="A:"
+                                 Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                            <Run Text="{Binding TransportCapacity, Mode=OneWay}"
+                                 Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="S:"
+                                    Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                            <Run Text="{Binding TransportCapacityS, Mode=OneWay}"
+                                    Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            
+            <TextBlock Grid.Row="3"
                        Style="{DynamicResource DefaultTextStyleKey}"
                        TextWrapping="WrapWithOverflow"
-                       Margin="5,15">
+                       Margin="5">
 				※출격(해역선택)화면을 열때 갱신됩니다.<LineBreak/>
 				※이벤트맵의 HP는 보스 기함에게 데미지를 주면 감소합니다.<LineBreak/>
 			</TextBlock>

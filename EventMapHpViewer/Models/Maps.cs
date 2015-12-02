@@ -46,6 +46,9 @@ namespace EventMapHpViewer.Models
             }
         }
 
+        /// <summary>
+        /// 残回数。輸送の場合はA勝利の残回数。
+        /// </summary>
         public int RemainingCount
         {
             get
@@ -57,6 +60,13 @@ namespace EventMapHpViewer.Models
 
                 if (this.Eventmap == null) return 1;    //ゲージ無し通常海域
 
+                if (this.Eventmap.GaugeType == GaugeType.Transport)
+                {
+                    var capacityA = KanColleClient.Current.Homeport.Organization.TransportationCapacity();
+                    if (capacityA == 0) return int.MaxValue;  //ゲージ減らない
+                    return (int)Math.Ceiling((double)this.Current / capacityA);
+                }
+                
                 try
                 {
                     var lastBossHp = EventBossHpDictionary[this.Eventmap.SelectedRank][this.Id].Last();
@@ -71,6 +81,22 @@ namespace EventMapHpViewer.Models
             }
         }
 
+        /// <summary>
+        /// 輸送ゲージのS勝利時の残回数
+        /// </summary>
+        public int RemainingCountTransportS
+        {
+            get
+            {
+                if (this.Eventmap?.GaugeType != GaugeType.Transport) return -1;
+                var capacity = KanColleClient.Current.Homeport.Organization.TransportationCapacity(true);
+                if (capacity == 0) return int.MaxValue;  //ゲージ減らない
+                return (int)Math.Ceiling((double)this.Current / capacity);
+            }
+        }
+
+        public GaugeType GaugeType => this.Eventmap?.GaugeType ?? GaugeType.Normal;
+
         public static readonly IReadOnlyDictionary<int, IReadOnlyDictionary<int, int[]>> EventBossHpDictionary
             = new Dictionary<int, IReadOnlyDictionary<int, int[]>>
             {
@@ -82,37 +108,25 @@ namespace EventMapHpViewer.Models
                 { //丙
                     1, new Dictionary<int, int[]>
                     {
-                        { 311, new[] { 150 } },
-                        { 312, new[] { 210 } },
-                        { 313, new[] { 350 } },
-                        { 314, new[] { 500 } },
-                        { 315, new[] { 400 } },
-                        { 316, new[] { 350 } },
-                        { 317, new[] { 255 } },
+                        { 321, new[] { 80 } },
+                        { 324, new[] { 110, 130 } },
+                        { 325, new[] { 255 } },
                     }
                 },
                 { //乙
                     2, new Dictionary<int, int[]>
                     {
-                        { 311, new[] { 150, 190 } },
-                        { 312, new[] { 210 } },
-                        { 313, new[] { 350 } },
-                        { 314, new[] { 500 } },
-                        { 315, new[] { 400 } },
-                        { 316, new[] { 350 } },
-                        { 317, new[] { 255 } },
+                        { 321, new[] { 88 } },
+                        { 324, new[] { 110, 130 } },
+                        { 325, new[] { 255 } },
                     }
                 },
                 { //甲
                     3, new Dictionary<int, int[]>
                     {
-                        { 311, new[] { 150, 190 } },
-                        { 312, new[] { 270 } },
-                        { 313, new[] { 350 } },
-                        { 314, new[] { 500 } },
-                        { 315, new[] { 400 } },
-                        { 316, new[] { 350 } },
-                        { 317, new[] { 255 } },
+                        { 321, new[] { 88 } },
+                        { 324, new[] { 130, 160 } },
+                        { 325, new[] { 255 } },
                     }
                 },
             };
@@ -124,6 +138,7 @@ namespace EventMapHpViewer.Models
         public int MaxMapHp { get; set; }
         public int State { get; set; }
         public int SelectedRank { get; set; }
+        public GaugeType GaugeType { get; set; }
 
         public string SelectedRankText
         {
@@ -132,11 +147,11 @@ namespace EventMapHpViewer.Models
                 switch (this.SelectedRank)
                 {
                     case 1:
-                        return "丙";
+                        return "병";
                     case 2:
-                        return "乙";
+                        return "을";
                     case 3:
-                        return "甲";
+                        return "갑";
                     default:
                         return "";
                 }
