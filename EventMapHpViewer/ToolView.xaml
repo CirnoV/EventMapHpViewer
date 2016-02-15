@@ -189,7 +189,7 @@
                                              HorizontalAlignment="Right"
                                              VerticalAlignment="Center"
                                              Margin="3,0,7,0"
-                                             Visibility="{Binding IsCountVisible, Converter={StaticResource TrueToVisibleConverter}}">
+                                             Visibility="{Binding IsCountVisibility}">
                                         <Control.Style>
                                             <Style TargetType="{x:Type Control}">
                                                 <Setter Property="Template">
@@ -235,6 +235,16 @@
                                             </Style>
                                         </Control.Style>
                                     </Control>
+                                    
+                                    <TextBlock Grid.Column="4"
+                                               Grid.Row="0"
+                                               Grid.RowSpan="2"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               Margin="3,0,7,0"
+                                               Visibility="{Binding IsLoading, Converter={StaticResource TrueToVisibleConverter}}"
+                                               Style="{DynamicResource DefaultTextStyleKey}"
+                                               Text="로드중"/>
 
                                     <TextBlock Grid.Column="4"
                                                Grid.Row="0"
@@ -242,7 +252,7 @@
                                                HorizontalAlignment="Right"
                                                VerticalAlignment="Center"
                                                Margin="3,0,7,0"
-                                               Visibility="{Binding IsSupported, Converter={StaticResource FalseToVisibleConverter}}"
+                                               Visibility="{Binding IsUnSupportedVisibility}"
                                                Style="{DynamicResource DefaultTextStyleKey}"
                                                Text="미대응"/>
 
@@ -252,7 +262,7 @@
                                                HorizontalAlignment="Right"
                                                VerticalAlignment="Center"
                                                Margin="3,0,7,0"
-                                               Visibility="{Binding IsInfinity, Converter={StaticResource TrueToVisibleConverter}}"
+                                               Visibility="{Binding IsInfinityVisibility}"
                                                Style="{DynamicResource DefaultTextStyleKey}"
                                                Text="무한"/>
 
