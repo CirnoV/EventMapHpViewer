@@ -11,7 +11,7 @@
              Foreground="{DynamicResource ActiveForegroundBrushKey}"
              mc:Ignorable="d" 
              d:DesignHeight="500"
-             d:DesignWidth="600"
+             d:DesignWidth="500"
              d:DataContext="{d:DesignData /SampleData/ToolViewModelSampleData.xaml}">
     
     <UserControl.Resources>
@@ -72,7 +72,7 @@
             <Border Grid.Row="0"
                     BorderThickness="0,0,0,1"
                     BorderBrush="{DynamicResource ActiveBorderBrushKey}">
-				<TextBlock Text="공략중인 맵"
+                <TextBlock Text="공략중인 맵"
                            Style="{DynamicResource HeaderTextStyleKey}"
                            Margin="10,0,10,10"/>
             </Border>
@@ -246,7 +246,7 @@
                                                Style="{DynamicResource DefaultTextStyleKey}"
                                                Text="로드중"/>
 
-                                    <TextBlock Grid.Column="4"
+									<TextBlock Grid.Column="4"
                                                Grid.Row="0"
                                                Grid.RowSpan="2"
                                                HorizontalAlignment="Right"
@@ -256,7 +256,7 @@
                                                Style="{DynamicResource DefaultTextStyleKey}"
                                                Text="미대응"/>
 
-                                    <TextBlock Grid.Column="4"
+									<TextBlock Grid.Column="4"
                                                Grid.Row="0"
                                                Grid.RowSpan="2"
                                                HorizontalAlignment="Right"
@@ -267,7 +267,7 @@
                                                Text="무한"/>
 
 
-                                    <Grid x:Name="UnselectedIndicator"
+									<Grid x:Name="UnselectedIndicator"
                                           Grid.Column="3"
                                           Grid.Row="0"
                                           Grid.RowSpan="2"
@@ -291,15 +291,15 @@
                     BorderBrush="{DynamicResource ActiveBorderBrushKey}">
                 <StackPanel Orientation="Horizontal"
                             Margin="5">
-                    <TextBlock Text="제1함대의 수송력"
+					<TextBlock Text="제1함대의 수송력"
                                Style="{DynamicResource EmphaticTextStyleKey}"
                                FontSize="12"
                                Visibility="{Binding Source={x:Static kanColleWrapper:KanColleClient.Current}, Path=Homeport.Organization.Combined, Converter={StaticResource FalseToVisibleConverter}}"/>
-                    <TextBlock Text="연합함대의 수송력"
+					<TextBlock Text="연합함대의 수송력"
                                Style="{DynamicResource EmphaticTextStyleKey}"
                                FontSize="12"
                                Visibility="{Binding Source={x:Static kanColleWrapper:KanColleClient.Current}, Path=Homeport.Organization.Combined, Converter={StaticResource TrueToVisibleConverter}}"/>
-                    <TextBlock Text=" (잠정)"
+                    <TextBlock Text=" (상륙지점 도달시에 확정)"
                                Style="{DynamicResource DefaultTextStyleKey}"/>
                     <StackPanel Margin="8,0">
                         <TextBlock>
