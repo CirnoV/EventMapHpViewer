@@ -50,13 +50,6 @@
         </ResourceDictionary>
     </UserControl.Resources>
     
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <l:LivetCallMethodAction MethodTarget="{Binding}"
-                                     MethodName="Loaded" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled"
                   PanningMode="Both">
@@ -196,7 +189,9 @@
                                                     <Setter.Value>
                                                         <ControlTemplate>
                                                             <TextBlock>
-                                                                <Run Text="{Binding RemainingCount}"
+                                                                <Run Text="후"
+                                                                     Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                                                                <Run Text="{Binding RemainingCountMin}"
                                                                      Style="{DynamicResource EmphaticTextElementStyleKey}"/>
                                                                 <Run Text="회 격파필요"
                                                                      Style="{DynamicResource DefaultTextElementStyleKey}"/>
@@ -205,25 +200,45 @@
                                                     </Setter.Value>
                                                 </Setter>
                                                 <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSingleRemainingCount}" Value="False">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <TextBlock>
+                                                                        <Run Text="후"
+                                                                             Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                                                                        <Run Text="{Binding RemainingCountMin}"
+                                                                             Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+                                                                        <Run Text="-"
+                                                                             Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                                                                        <Run Text="{Binding RemainingCountMax}"
+                                                                             Style="{DynamicResource EmphaticTextElementStyleKey}"/>
+                                                                        <Run Text="회"
+                                                                             Style="{DynamicResource DefaultTextElementStyleKey}"/>
+                                                                    </TextBlock>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
                                                     <DataTrigger Binding="{Binding GaugeType}" Value="Transport">
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate>
                                                                     <StackPanel>
                                                                         <TextBlock>
-                                                                            <Run Text="A:"
+                                                                            <Run Text="후 A:"
                                                                                  Style="{DynamicResource DefaultTextElementStyleKey}"/>
-                                                                            <Run Text="{Binding RemainingCount}"
+                                                                            <Run Text="{Binding RemainingCountMin}"
                                                                                  Style="{DynamicResource EmphaticTextElementStyleKey}"/>
-                                                                            <Run Text="회 격파필요"
+                                                                            <Run Text="회"
                                                                                  Style="{DynamicResource DefaultTextElementStyleKey}"/>
                                                                         </TextBlock>
                                                                         <TextBlock>
-                                                                            <Run Text="S:"
+                                                                            <Run Text="후 S:"
                                                                                  Style="{DynamicResource DefaultTextElementStyleKey}"/>
                                                                             <Run Text="{Binding RemainingCountTransportS}"
                                                                                  Style="{DynamicResource EmphaticTextElementStyleKey}"/>
-                                                                            <Run Text="회 격파필요"
+                                                                            <Run Text="회"
                                                                                  Style="{DynamicResource DefaultTextElementStyleKey}"/>
                                                                         </TextBlock>
                                                                     </StackPanel>
@@ -246,7 +261,7 @@
                                                Style="{DynamicResource DefaultTextStyleKey}"
                                                Text="로드중"/>
 
-									<TextBlock Grid.Column="4"
+                                    <TextBlock Grid.Column="4"
                                                Grid.Row="0"
                                                Grid.RowSpan="2"
                                                HorizontalAlignment="Right"
@@ -256,7 +271,7 @@
                                                Style="{DynamicResource DefaultTextStyleKey}"
                                                Text="미대응"/>
 
-									<TextBlock Grid.Column="4"
+                                    <TextBlock Grid.Column="4"
                                                Grid.Row="0"
                                                Grid.RowSpan="2"
                                                HorizontalAlignment="Right"
@@ -267,7 +282,7 @@
                                                Text="무한"/>
 
 
-									<Grid x:Name="UnselectedIndicator"
+                                    <Grid x:Name="UnselectedIndicator"
                                           Grid.Column="3"
                                           Grid.Row="0"
                                           Grid.RowSpan="2"
@@ -324,7 +339,7 @@
                        Margin="5">
 				※출격(해역선택)화면을 열때 갱신됩니다.<LineBreak/>
 				※이벤트맵의 HP는 보스 기함에게 데미지를 주면 감소합니다.<LineBreak/>
-			</TextBlock>
+            </TextBlock>
         </Grid>
         
     </ScrollViewer>

@@ -17,7 +17,9 @@ namespace EventMapHpViewer.Models
             var coefficient = isS ? 1.0 : 0.7;
             var tp = org.BaseTransportationCapacity()
                      + org.DrumTransportationCapacity()
-                     + org.DaihatsuTransportationCapacity();
+                     + org.DaihatsuTransportationCapacity()
+                     + org.LaunchransportationCapacity()
+                     + org.RationsTransportationCapacity();
             return (int) Math.Floor(tp * coefficient);
         }
 
@@ -31,12 +33,24 @@ namespace EventMapHpViewer.Models
             => org.CountSlotitem(75) * 5.0;
 
         private static double DaihatsuTransportationCapacity(this Organization org)
-            => org.CountSlotitem(68) * 8.0;
+            => org.CountSlotitem(68) * 8.0 + org.CountSlotitem(166) * 8.0;
+
+        private static double LaunchransportationCapacity(this Organization org)
+            => org.CountSlotitem(167) * 2.0;
+
+        private static double RationsTransportationCapacity(this Organization org)
+            => org.CountExSlotitem(145) * 1.0;
 
         private static int CountSlotitem(this Organization org, int slotitemId)
         {
             return org.TransportingShips()
                 .Sum(x => x.Slots.Count(y => y.Item.Info.Id == slotitemId));
+        }
+
+        private static int CountExSlotitem(this Organization org, int slotitemId)
+        {
+            return org.TransportingShips()
+                .Sum(x => x.ExSlot?.Item.Info.Id == slotitemId ? 1 : 0);
         }
 
         private static double TransportationCapacity(this ShipType type)

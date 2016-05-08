@@ -76,9 +76,9 @@ namespace EventMapHpViewer.ViewModels
 
 
         #region Current変更通知プロパティ
-        private int _Current;
+        private string _Current;
 
-        public int Current
+        public string Current
         {
             get
             { return this._Current; }
@@ -94,9 +94,9 @@ namespace EventMapHpViewer.ViewModels
 
 
         #region Max変更通知プロパティ
-        private int _Max;
+        private string _Max;
 
-        public int Max
+        public string Max
         {
             get
             { return this._Max; }
@@ -131,22 +131,44 @@ namespace EventMapHpViewer.ViewModels
         public Visibility SelectedRankVisibility
             => string.IsNullOrEmpty(this.SelectedRank) ? Visibility.Collapsed : Visibility.Visible;
 
-        #region RemainingCount変更通知プロパティ
-        private string _RemainingCount;
+        #region RemainingCountMin 変更通知プロパティ
+        private string _RemainingCountMin;
 
-        public string RemainingCount
+        public string RemainingCountMin
         {
             get
-            { return this._RemainingCount; }
+            { return this._RemainingCountMin; }
             set
             {
-                if (this._RemainingCount == value)
+                if (this._RemainingCountMin == value)
                     return;
-                this._RemainingCount = value;
+                this._RemainingCountMin = value;
                 this.RaisePropertyChanged();
+                this.RaisePropertyChanged(nameof(this.IsSingleRemainingCount));
             }
         }
         #endregion
+
+        #region RemainingCountMax 変更通知プロパティ
+        private string _RemainingCountMax;
+
+        public string RemainingCountMax
+        {
+            get
+            { return this._RemainingCountMax; }
+            set
+            {
+                if (this._RemainingCountMax == value)
+                    return;
+                this._RemainingCountMax = value;
+                this.RaisePropertyChanged();
+                this.RaisePropertyChanged(nameof(this.IsSingleRemainingCount));
+            }
+        }
+        #endregion
+
+        public bool IsSingleRemainingCount
+            => this.RemainingCountMin == this.RemainingCountMax;
 
 
         #region RemainingCountTransportS変更通知プロパティ
@@ -310,8 +332,8 @@ namespace EventMapHpViewer.ViewModels
             this.MapNumber = info.MapNumber;
             this.Name = info.Name;
             this.AreaName = info.AreaName;
-            this.Current = info.Current;
-            this.Max = info.Max;
+            this.Current = info.Current?.ToString() ?? "???";
+            this.Max = info.Max?.ToString() ?? "???";
             this.SelectedRank = info.Eventmap?.SelectedRankText ?? "";
             this.RemainingCountTransportS = info.RemainingCountTransportS.ToString();
             this.IsCleared = info.IsCleared == 1;
@@ -347,7 +369,7 @@ namespace EventMapHpViewer.ViewModels
             }
         }
 
-        private void Update(int remainingCount, bool useCache)
+        private void Update(RemainingCount remainingCount, bool useCache)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -355,11 +377,18 @@ namespace EventMapHpViewer.ViewModels
                 {
                     this.IsLoading = false;
                 }
-                this.RemainingCount = remainingCount.ToString();
+                this.IsSupported = remainingCount != null;
+                if (!this.IsSupported)
+                {
+                    this.GaugeColor = red;
+                    return;
+                }
+
+                this.RemainingCountMin = remainingCount.Min.ToString();
+                this.RemainingCountMax = remainingCount.Max.ToString();
                 this.RemainingCountTransportS = this._source.RemainingCountTransportS.ToString();
-                this.IsSupported = 0 < remainingCount;
-                this.IsInfinity = remainingCount == int.MaxValue;
-                this.GaugeColor = remainingCount < 2 ? red : green;
+                this.IsInfinity = remainingCount == RemainingCount.MaxValue;
+                this.GaugeColor = remainingCount.Min < 2 ? red : green;
             });
         }
 
