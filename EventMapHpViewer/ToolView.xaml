@@ -188,9 +188,7 @@
                                                 <Setter Property="Template">
                                                     <Setter.Value>
                                                         <ControlTemplate>
-                                                            <TextBlock>
-                                                                <Run Text="후"
-                                                                     Style="{DynamicResource DefaultTextElementStyleKey}"/>
+															<TextBlock>
                                                                 <Run Text="{Binding RemainingCountMin}"
                                                                      Style="{DynamicResource EmphaticTextElementStyleKey}"/>
                                                                 <Run Text="회 격파필요"
@@ -204,9 +202,7 @@
                                                         <Setter Property="Template">
                                                             <Setter.Value>
                                                                 <ControlTemplate>
-                                                                    <TextBlock>
-                                                                        <Run Text="후"
-                                                                             Style="{DynamicResource DefaultTextElementStyleKey}"/>
+																	<TextBlock>
                                                                         <Run Text="{Binding RemainingCountMin}"
                                                                              Style="{DynamicResource EmphaticTextElementStyleKey}"/>
                                                                         <Run Text="-"
@@ -226,19 +222,19 @@
                                                                 <ControlTemplate>
                                                                     <StackPanel>
                                                                         <TextBlock>
-                                                                            <Run Text="후 A:"
+                                                                            <Run Text="A:"
                                                                                  Style="{DynamicResource DefaultTextElementStyleKey}"/>
                                                                             <Run Text="{Binding RemainingCountMin}"
                                                                                  Style="{DynamicResource EmphaticTextElementStyleKey}"/>
-                                                                            <Run Text="회"
+                                                                            <Run Text="회 격파필요"
                                                                                  Style="{DynamicResource DefaultTextElementStyleKey}"/>
                                                                         </TextBlock>
                                                                         <TextBlock>
-                                                                            <Run Text="후 S:"
+                                                                            <Run Text="S:"
                                                                                  Style="{DynamicResource DefaultTextElementStyleKey}"/>
                                                                             <Run Text="{Binding RemainingCountTransportS}"
                                                                                  Style="{DynamicResource EmphaticTextElementStyleKey}"/>
-                                                                            <Run Text="회"
+                                                                            <Run Text="회 격파필요"
                                                                                  Style="{DynamicResource DefaultTextElementStyleKey}"/>
                                                                         </TextBlock>
                                                                     </StackPanel>
