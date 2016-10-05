@@ -6,7 +6,6 @@
         public int api_cleared { get; set; }
         public int api_exboss_flag { get; set; }
         public int api_defeat_count { get; set; }
-        public Api_Eventmap api_eventmap { get; set; }
+        public kcsapi_eventmap api_eventmap { get; set; }
     }
-
 }

@@ -13,7 +13,7 @@
         public int api_next { get; set; }
         public int api_bosscell_no { get; set; }
         public int api_bosscomp { get; set; }
-        public Api_Eventmap api_eventmap { get; set; }
+        public kcsapi_eventmap api_eventmap { get; set; }
         public int api_comment_kind { get; set; }
         public int api_production_kind { get; set; }
         public Api_Enemy api_enemy { get; set; }
