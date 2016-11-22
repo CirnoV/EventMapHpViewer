@@ -33,7 +33,7 @@ namespace EventMapHpViewer.Models
             => org.CountSlotitem(75) * 5.0;
 
         private static double DaihatsuTransportationCapacity(this Organization org)
-            => org.CountSlotitem(68) * 8.0 + org.CountSlotitem(166) * 8.0;
+            => org.CountSlotitem(68) * 8.0 + org.CountSlotitem(166) * 8.0 + org.CountSlotitem(193) * 8.0;
 
         private static double LaunchransportationCapacity(this Organization org)
             => org.CountSlotitem(167) * 2.0;

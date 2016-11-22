@@ -1,4 +1,6 @@
-﻿namespace EventMapHpViewer.Models.Raw
+﻿using Grabacr07.KanColleWrapper.Models.Raw;
+
+namespace EventMapHpViewer.Models.Raw
 {
 	// ReSharper disable InconsistentNaming
 	public class kcsapi_start2

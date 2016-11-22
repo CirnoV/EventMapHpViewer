@@ -1,5 +1,6 @@
 ﻿using Grabacr07.KanColleWrapper;
 using Grabacr07.KanColleWrapper.Models;
+using Grabacr07.KanColleWrapper.Models.Raw;
 using EventMapHpViewer.Models.Raw;
 
 namespace EventMapHpViewer.Models

@@ -92,7 +92,7 @@ namespace EventMapHpViewer.Models
                 .Select(x => new MapData
                 {
                     IsCleared = x.api_cleared,
-                    DefeatCount = x.api_defeat_count,
+                    DefeatCount = x.api_defeat_count ?? 0,
                     IsExBoss = x.api_exboss_flag,
                     Id = x.api_id,
                     Eventmap = x.api_eventmap != null

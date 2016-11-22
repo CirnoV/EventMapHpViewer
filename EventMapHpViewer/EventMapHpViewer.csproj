@@ -94,8 +94,6 @@
     <Compile Include="Models\OrganizationExtensions.cs" />
     <Compile Include="Models\Raw\kcsapi_eventmap.cs" />
     <Compile Include="Models\Raw\kcsapi_mapinfo.cs" />
-    <Compile Include="Models\Raw\kcsapi_mst_maparea.cs" />
-    <Compile Include="Models\Raw\kcsapi_mst_mapinfo.cs" />
     <Compile Include="Models\Raw\kcsapi_start2.cs" />
     <Compile Include="Models\Raw\map_exboss.cs" />
     <Compile Include="Models\Raw\map_select_eventmap_rank.cs" />
